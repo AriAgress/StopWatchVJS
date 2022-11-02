@@ -9,13 +9,14 @@
   </head>
   <body>
     <div class="container">
-      <p>
-        <span id="hours">00</span>: <span id="minutes">00</span>:
-        <span id="seconds">00</span>: <span id="tens">00</span>
-      </p>
-      <button id="button-start">start</button>
-      <button id="button-stop">stop</button>
-      <button id="button-reset">reset</button>
+      <div class="timerDisplay">00 : 00 : 00 : 000</div>
+
+      <div class="buttons">
+        <button id="pauseTimer">Pause</button>
+        <button id="startTimer">Start</button>
+        <button id="resetTimer">Reset</button>
+      </div>
+      <button id="recordTimer">Record</button>
     </div>
 
     <script src="utils.js"></script>

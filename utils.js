@@ -1,66 +1,57 @@
-var hours = 00;
-var minutes = 00;
-var seconds = 00;
-var tens = 00;
-var appendTens = document.getElementById("tens");
-var appendSeconds = document.getElementById("seconds");
-var appendMinutes = document.getElementById("minutes");
-var appendHours = document.getElementById("hours");
-var buttonStart = document.getElementById("button-start");
-var buttonStop = document.getElementById("button-stop");
-var buttonReset = document.getElementById("button-reset");
-var interval; // to store timer values
+let record = [];
+let h = 0;
+let m = 0;
+let s = 0;
+let ms = 0;
 
-// This function will run when start is clicked
+let [milliseconds, seconds, minutes, hours] = [0, 0, 0, 0];
+let timerRef = document.querySelector(".timerDisplay");
+let int = null;
 
-function startTimer() {
-  tens++;
-
-  if (tens < 9) {
-    appendTens.innterHTML = "0" + tens;
+document.getElementById("startTimer").addEventListener("click", () => {
+  if (int !== null) {
+    clearInterval(int);
   }
-  if (tens > 9) {
-    appendTens.innerHTML = tens;
-  }
-  if (tens > 99) {
+  int = setInterval(displayTimer, 10);
+});
+
+document.getElementById("pauseTimer").addEventListener("click", () => {
+  clearInterval(int);
+});
+
+document.getElementById("resetTimer").addEventListener("click", () => {
+  clearInterval(int);
+  [milliseconds, seconds, minutes, hours] = [0, 0, 0, 0];
+  timerRef.innerHTML = "00 : 00 : 00 : 000 ";
+});
+
+function displayTimer() {
+  milliseconds += 10;
+  if (milliseconds == 1000) {
+    milliseconds = 0;
     seconds++;
-    appendSeconds.innerHTML = "0" + seconds;
-    tens = 0;
-    appendTens.innerHTML = "0" + 0;
+    if (seconds == 60) {
+      seconds = 0;
+      minutes++;
+      if (minutes == 60) {
+        minutes = 0;
+        hours++;
+      }
+    }
   }
-  if (seconds > 9) {
-    appendSeconds.innerHTML = seconds;
-  }
-  if (seconds > 59) {
-    minutes++;
-    appendMinutes.innerHTML = "0" + minutes;
-    seconds = 0;
-    appendSeconds.innerHTML = "0" + 0;
-  }
-  if (minutes > 59) {
-    hours++;
-    appendHours.innerHTML = "0" + hours;
-    minutes = 0;
-    appendMinutes.innerHTML = "0" + 0;
-  }
+
+  hours < 10 ? (h = "0" + hours) : (h = hours);
+  minutes < 10 ? (m = "0" + minutes) : (m = minutes);
+  seconds < 10 ? (s = "0" + seconds) : (s = seconds);
+  milliseconds < 10
+    ? (ms = "00" + milliseconds)
+    : (ms =
+        milliseconds < 100 ? (ms = "0" + milliseconds) : (ms = milliseconds));
+
+  timerRef.innerHTML = ` ${h} : ${m} : ${s} : ${ms}`;
 }
 
-buttonStart.onclick = function () {
-  interval = setInterval(startTimer, 10);
-};
-
-buttonStop.onclick = function () {
-  clearInterval(interval);
-};
-
-buttonReset.onclick = function () {
-  clearInterval(interval);
-  tens = "00";
-  seconds = "00";
-  minutes = "00";
-  hours = "00";
-  appendHours.innerHTML = hours;
-  appendMinutes.innerHTML = minutes;
-  appendSeconds.innerHTML = seconds;
-  appendTens.innerHTML = tens;
-};
+document.getElementById("recordTimer").addEventListener("click", () => {
+  record.push([h, m, s, ms]);
+  localStorage.setItem("recordedTime", JSON.stringify(record));
+});
