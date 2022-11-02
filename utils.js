@@ -1,32 +1,25 @@
-var hours = 00;
-var minutes = 00;
-var seconds = 00;
-var tens = 00;
-var appendTens = document.getElementById("tens");
-var appendSeconds = document.getElementById("seconds");
-var appendMinutes = document.getElementById("minutes");
-var appendHours = document.getElementById("hours");
-var buttonStart = document.getElementById("button-start");
-var buttonStop = document.getElementById("button-stop");
-var buttonReset = document.getElementById("button-reset");
-var interval; // to store timer values
+let hours = 00;
+let minutes = 00;
+let seconds = 00;
+let appendSeconds = document.getElementById("seconds");
+let appendMinutes = document.getElementById("minutes");
+let appendHours = document.getElementById("hours");
+let buttonStart = document.getElementById("button-start");
+let buttonStop = document.getElementById("button-stop");
+let buttonReset = document.getElementById("button-reset");
+let buttonRecord = document.getElementById("button-record");
+let interval; // to store timer values
 
 // This function will run when start is clicked
 
 function startTimer() {
-  tens++;
+  seconds++;
 
-  if (tens < 9) {
-    appendTens.innterHTML = "0" + tens;
-  }
-  if (tens > 9) {
-    appendTens.innerHTML = tens;
-  }
-  if (tens > 99) {
-    seconds++;
+  if (seconds < 9) {
     appendSeconds.innerHTML = "0" + seconds;
-    tens = 0;
-    appendTens.innerHTML = "0" + 0;
+  }
+  if (seconds > 9) {
+    appendSeconds.innerHTML = seconds;
   }
   if (seconds > 9) {
     appendSeconds.innerHTML = seconds;
@@ -46,7 +39,7 @@ function startTimer() {
 }
 
 buttonStart.onclick = function () {
-  interval = setInterval(startTimer, 10);
+  interval = setInterval(startTimer, 1000);
 };
 
 buttonStop.onclick = function () {
@@ -55,12 +48,20 @@ buttonStop.onclick = function () {
 
 buttonReset.onclick = function () {
   clearInterval(interval);
-  tens = "00";
   seconds = "00";
   minutes = "00";
   hours = "00";
   appendHours.innerHTML = hours;
   appendMinutes.innerHTML = minutes;
   appendSeconds.innerHTML = seconds;
-  appendTens.innerHTML = tens;
+};
+
+buttonRecord.onclick = function () {
+  let recordedTime = { 'bookOne': {'hours':hours,'minutes':minutes,'seconds':seconds}, 'bookTwo': 2, 'bookThree': 3 };
+  
+  localStorage.setItem('recordedTime', JSON.stringify(recordedTime));
+  
+  let retrievedTime = localStorage.getItem('recordedTime');
+  
+  console.log('retrievedTime: ', JSON.parse(retrievedTime));
 };
