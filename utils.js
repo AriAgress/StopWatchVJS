@@ -68,10 +68,7 @@ document.getElementById("retrieveTime").addEventListener("click", () => {
 });
 
 document.getElementById("startRTimer").addEventListener("click", () => {
-  if (int !== null) {
-    clearInterval(int);
-  }
-  int = setInterval(recordedTimer, 10);
+  setInterval(recordedTimer, 10);
 });
 
 function recordedTimer() {
