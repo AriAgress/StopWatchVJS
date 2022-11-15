@@ -9,23 +9,6 @@ let timerRef = document.querySelector(".timerDisplay");
 let recordedTimerRef = document.querySelector(".retrieveTimeDisplay");
 let int = null;
 
-document.getElementById("startTimer").addEventListener("click", () => {
-  if (int !== null) {
-    clearInterval(int);
-  }
-  int = setInterval(displayTimer, 10);
-});
-
-document.getElementById("pauseTimer").addEventListener("click", () => {
-  clearInterval(int);
-});
-
-document.getElementById("resetTimer").addEventListener("click", () => {
-  clearInterval(int);
-  [milliseconds, seconds, minutes, hours] = [0, 0, 0, 0];
-  timerRef.innerHTML = "00 : 00 : 00 : 000 ";
-});
-
 function displayTimer() {
   milliseconds += 10;
   if (milliseconds == 1000) {
@@ -52,24 +35,24 @@ function displayTimer() {
   timerRef.innerHTML = ` ${h} : ${m} : ${s} : ${ms}`;
 }
 
-document.getElementById("recordTimer").addEventListener("click", () => {
-  // record.push([h, m, s, ms]);
-  // localStorage.setItem("recordedTime", JSON.stringify(record));
-  let recordedTime = { hours: h, minutes: m, seconds: s, miliseconds: ms };
-  localStorage.setItem("recordedTime", JSON.stringify(recordedTime));
-});
+// document.getElementById("recordTimer").addEventListener("click", () => {
+//   // record.push([h, m, s, ms]);
+//   // localStorage.setItem("recordedTime", JSON.stringify(record));
+//   let recordedTime = { hours: h, minutes: m, seconds: s, miliseconds: ms };
+//   localStorage.setItem("recordedTime", JSON.stringify(recordedTime));
+// });
 
-document.getElementById("retrieveTime").addEventListener("click", () => {
-  // let retrievedTime = localStorage.getItem("recordedTime", JSON.parse(record));
-  // console.log(retrievedTime);
-  let retrievedTime = localStorage.getItem("recordedTime");
-  console.log("retrievedTime: ", JSON.parse(retrievedTime));
-  recordedTimerRef.innerHTML = ` ${h} : ${m} : ${s} : ${ms}`;
-});
+// document.getElementById("retrieveTime").addEventListener("click", () => {
+//   // let retrievedTime = localStorage.getItem("recordedTime", JSON.parse(record));
+//   // console.log(retrievedTime);
+//   let retrievedTime = localStorage.getItem("recordedTime");
+//   console.log("retrievedTime: ", JSON.parse(retrievedTime));
+//   recordedTimerRef.innerHTML = ` ${h} : ${m} : ${s} : ${ms}`;
+// });
 
-document.getElementById("startRTimer").addEventListener("click", () => {
-  setInterval(recordedTimer, 10);
-});
+// document.getElementById("startRTimer").addEventListener("click", () => {
+//   setInterval(recordedTimer, 10);
+// });
 
 function recordedTimer() {
   milliseconds += 10;
@@ -96,3 +79,27 @@ function recordedTimer() {
 
   recordedTimerRef.innerHTML = ` ${h} : ${m} : ${s} : ${ms}`;
 }
+
+document.getElementById("startTimer").addEventListener("click", () => {
+  if (int !== null) {
+    clearInterval(int);
+  }
+  int = setInterval(displayTimer, 10);
+  let retrievedTime = localStorage.getItem("recordedTime");
+  console.log("retrievedTime: ", JSON.parse(retrievedTime));
+  recordedTimerRef.innerHTML = ` ${h} : ${m} : ${s} : ${ms}`;
+  // setInterval(recordedTimer);
+});
+
+document.getElementById("pauseTimer").addEventListener("click", () => {
+  clearInterval(int);
+  let recordedTime = { hours: h, minutes: m, seconds: s, miliseconds: ms };
+  localStorage.setItem("recordedTime", JSON.stringify(recordedTime));
+  console.log(recordedTime);
+});
+
+document.getElementById("resetTimer").addEventListener("click", () => {
+  clearInterval(int);
+  // [milliseconds, seconds, minutes, hours] = [0, 0, 0, 0];
+  timerRef.innerHTML = "00 : 00 : 00 : 000 ";
+});
